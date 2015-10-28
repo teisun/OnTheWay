@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp120"
+    android:background="@color/C22BCF0" >
+
+    <RelativeLayout
+        android:id="@+id/top_home"
+        android:layout_width="@dimen/dp130"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp30" >
+
+        <ImageView
+            android:layout_width="@dimen/dp72"
+            android:layout_height="@dimen/dp72"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_home" />
+
+        <View
+            android:id="@+id/top_home_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp5"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/top_discover"
+        android:layout_width="@dimen/dp130"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/top_home" >
+
+        <ImageView
+            android:layout_width="@dimen/dp72"
+            android:layout_height="@dimen/dp72"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_discover" />
+
+        <View
+            android:id="@+id/top_discover_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp5"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/top_friend"
+        android:layout_width="@dimen/dp130"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/top_discover" >
+
+        <ImageView
+            android:layout_width="@dimen/dp72"
+            android:layout_height="@dimen/dp72"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_friend" />
+
+        <View
+            android:id="@+id/top_friend_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp5"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/top_menu"
+        android:layout_width="@dimen/dp130"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp30" >
+
+        <ImageView
+            android:layout_width="@dimen/dp72"
+            android:layout_height="@dimen/dp72"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_menu" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/top_search"
+        android:layout_width="@dimen/dp130"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/top_menu" >
+
+        <ImageView
+            android:layout_width="@dimen/dp72"
+            android:layout_height="@dimen/dp72"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_search" />
+    </RelativeLayout>
+
+</RelativeLayout>

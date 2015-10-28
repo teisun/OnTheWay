@@ -2,14 +2,21 @@ package com.road.ui.activity;
 
 import java.io.File;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,11 +24,15 @@ import android.widget.Toast;
 import com.road.bean.Info;
 import com.road.bean.Task;
 import com.road.utils.Configure;
+import com.road.utils.LogUtil;
 import com.road.utils.ThreadPoolManager;
 import com.squareup.picasso.Picasso;
 import com.zhou.ontheway.R;
 
+@SuppressLint("NewApi")
 public abstract class BaseActivity extends Activity implements OnClickListener {
+
+	private static final String TAG = "BaseActivity";
 
 	ThreadPoolManager mThreadPoolManager;
 
@@ -33,10 +44,14 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	protected Info mInfo;
 
 	protected final String INFO_NAME = "info";
-
-	/**
-	 * 当前最后执行的线程任务,task的ID属性可以用于判断线程启动的先后
-	 */
+	
+	// 状态栏高度
+	protected int statusHeight;
+	// android 版本是否为4.4
+	protected boolean isVersionLevel;
+	
+	
+	/**当前最后执行的线程任务,task的ID属性可以用于判断线程启动的先后*/
 	protected Task lastTask = new Task(0) {
 
 		@Override
@@ -44,11 +59,25 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 		}
 	};
-
+	
+	/**得到全局的View*/
+	protected abstract View getApplicationView();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ){ // 4.4以上
+			// 透明状态栏  
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);  
+			// 透明导航栏  
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+			isVersionLevel = true;
+		} else {
+			isVersionLevel = false;
+		}
+		
 		Configure.init(this);
 		mThreadPoolManager = ThreadPoolManager.getInstance();
 		mContext = this;
@@ -56,6 +85,57 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 		progress = getProgressDialog("正在加载,请稍后...");
 		progress.setCancelable(true);
 
+	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if(hasFocus && isVersionLevel){
+			 getAreaScreen();
+	         getAreaApplication();
+	         getAreaView();
+	         setPaddings(getApplicationView(), 0, statusHeight, 0, 0);
+		}
+	}
+	
+	/**设置View的Margin*/
+	protected void setMargins (View v, int left, int top, int right, int bottom) {
+	    if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+	        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+	        p.setMargins(left, top, right, bottom);
+	        v.requestLayout();
+	    }
+	}
+	
+	/**设置View的Padding*/
+	protected void setPaddings (View v, int left, int top, int right, int bottom) {
+		v.setPadding(left, top, right, bottom);
+        v.requestLayout();
+	}
+	
+	/**得到屏幕大小*/
+	protected void getAreaScreen(){
+		Display display = getWindowManager().getDefaultDisplay();
+		Point outP  = new Point();
+		display.getSize(outP );
+		LogUtil.d(TAG, "AreaScreen:" + " width=" + outP.x + " height=" + outP.y);
+	}
+	
+	/**得到应用的大小*/
+	protected void getAreaApplication(){
+		Rect outRect = new Rect();
+		getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+		statusHeight = outRect.top;
+		LogUtil.d(TAG, "AreaApplication:" + " width=" + outRect.width() + " height=" + outRect.height());
+		LogUtil.d(TAG, "AreaApplication:" + " top=" + outRect.top);
+	}
+	
+	/**得到View绘制的大小*/
+	protected void getAreaView(){
+		// 用户绘制区域   
+        Rect outRect = new Rect();  
+        getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(outRect);  
+        LogUtil.d(TAG, "AreaView:" + " width=" + outRect.width() + " height=" + outRect.height());  
 	}
 
 	@Override
