@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/C22BCF0"
+    android:background="#22BCF0"
     android:orientation="vertical" >
 
-    <include layout="@layout/include_home_top" />
+    <include layout="@layout/top_home" />
 
 </LinearLayout>

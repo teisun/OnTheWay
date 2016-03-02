@@ -1,7 +1,5 @@
 package com.road.ui.activity;
 
-import java.io.File;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,19 +19,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.road.bean.Info;
-import com.road.bean.Task;
 import com.road.utils.Configure;
 import com.road.utils.LogUtil;
 import com.road.utils.ThreadPoolManager;
 import com.squareup.picasso.Picasso;
-import com.zhou.ontheway.R;
 
 @SuppressLint("NewApi")
-public abstract class BaseActivity extends Activity implements OnClickListener {
+public abstract class BaseActivity extends Activity {
 
 	private static final String TAG = "BaseActivity";
 
-	ThreadPoolManager mThreadPoolManager;
+	protected ThreadPoolManager mThreadPoolManager;
 
 	protected Context mContext;
 
@@ -44,98 +39,96 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	protected Info mInfo;
 
 	protected final String INFO_NAME = "info";
-	
-	// ×´Ì¬À¸¸ß¶È
-	protected int statusHeight;
-	// android °æ±¾ÊÇ·ñÎª4.4
-	protected boolean isVersionLevel;
-	
-	
-	/**µ±Ç°×îºóÖ´ĞĞµÄÏß³ÌÈÎÎñ,taskµÄIDÊôĞÔ¿ÉÒÔÓÃÓÚÅĞ¶ÏÏß³ÌÆô¶¯µÄÏÈºó*/
-	protected Task lastTask = new Task(0) {
 
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-		}
-	};
+	// çŠ¶æ€æ é«˜åº¦
+	protected int statusHeight;
 	
-	/**µÃµ½È«¾ÖµÄView*/
+	// View ç»˜åˆ¶çš„é«˜åº¦
+	protected int viewHeight;
+	
+	// åº”ç”¨çš„é«˜åº¦
+	protected int applicationHeight;
+
+	// android ç‰ˆæœ¬æ˜¯å¦ä¸º4.4
+	protected boolean isVersionLevel;
+
+	/** å¾—åˆ°å…¨å±€çš„View */
 	protected abstract View getApplicationView();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
-		if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ){ // 4.4ÒÔÉÏ
-			// Í¸Ã÷×´Ì¬À¸  
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);  
-			// Í¸Ã÷µ¼º½À¸  
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4ä»¥ä¸Š
+			// é€æ˜çŠ¶æ€æ 
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			// é€æ˜å¯¼èˆªæ 
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 			isVersionLevel = true;
 		} else {
 			isVersionLevel = false;
 		}
-		
+
 		Configure.init(this);
 		mThreadPoolManager = ThreadPoolManager.getInstance();
 		mContext = this;
 
-		progress = getProgressDialog("ÕıÔÚ¼ÓÔØ,ÇëÉÔºó...");
+		progress = getProgressDialog("æ­£åœ¨åŠ è½½,è¯·ç¨å...");
 		progress.setCancelable(true);
-
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if(hasFocus && isVersionLevel){
-			 getAreaScreen();
-	         getAreaApplication();
-	         getAreaView();
-	         setPaddings(getApplicationView(), 0, statusHeight, 0, 0);
+		if (hasFocus && isVersionLevel) {
+			getAreaScreen();
+			getAreaView();
+			getAreaApplication();
+			setPaddings(getApplicationView(), 0, statusHeight, 0, (viewHeight - applicationHeight - statusHeight));
 		}
 	}
-	
-	/**ÉèÖÃViewµÄMargin*/
-	protected void setMargins (View v, int left, int top, int right, int bottom) {
-	    if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-	        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-	        p.setMargins(left, top, right, bottom);
-	        v.requestLayout();
-	    }
+
+	/** è®¾ç½®Viewçš„Margin */
+	protected void setMargins(View v, int left, int top, int right, int bottom) {
+		if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+			ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+			p.setMargins(left, top, right, bottom);
+			v.requestLayout();
+		}
 	}
-	
-	/**ÉèÖÃViewµÄPadding*/
-	protected void setPaddings (View v, int left, int top, int right, int bottom) {
+
+	/** è®¾ç½®Viewçš„Padding */
+	protected void setPaddings(View v, int left, int top, int right, int bottom) {
 		v.setPadding(left, top, right, bottom);
-        v.requestLayout();
+		v.requestLayout();
 	}
 	
-	/**µÃµ½ÆÁÄ»´óĞ¡*/
-	protected void getAreaScreen(){
+	/** å¾—åˆ°å±å¹•å¤§å° */
+	protected void getAreaScreen() {
 		Display display = getWindowManager().getDefaultDisplay();
-		Point outP  = new Point();
-		display.getSize(outP );
+		Point outP = new Point();
+		display.getSize(outP);
 		LogUtil.d(TAG, "AreaScreen:" + " width=" + outP.x + " height=" + outP.y);
 	}
-	
-	/**µÃµ½Ó¦ÓÃµÄ´óĞ¡*/
-	protected void getAreaApplication(){
+
+	/** å¾—åˆ°åº”ç”¨çš„å¤§å° */
+	protected void getAreaApplication() {
 		Rect outRect = new Rect();
 		getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
 		statusHeight = outRect.top;
-		LogUtil.d(TAG, "AreaApplication:" + " width=" + outRect.width() + " height=" + outRect.height());
-		LogUtil.d(TAG, "AreaApplication:" + " top=" + outRect.top);
+		applicationHeight = outRect.height();
+		LogUtil.d(TAG, "AreaApplication:" + " width=" + outRect.width()
+				+ " height=" + outRect.height() + " top=" + outRect.top 
+				+ " bottom=" + outRect.bottom);
 	}
-	
-	/**µÃµ½View»æÖÆµÄ´óĞ¡*/
-	protected void getAreaView(){
-		// ÓÃ»§»æÖÆÇøÓò   
-        Rect outRect = new Rect();  
-        getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(outRect);  
-        LogUtil.d(TAG, "AreaView:" + " width=" + outRect.width() + " height=" + outRect.height());  
+
+	/** å¾—åˆ°Viewç»˜åˆ¶çš„å¤§å° */
+	protected void getAreaView() {
+		// ç”¨æˆ·ç»˜åˆ¶åŒºåŸŸ
+		Rect outRect = new Rect();
+		getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(outRect);
+		viewHeight = outRect.height();
+		LogUtil.d(TAG, "AreaView:" + " width=" + outRect.width() + " height="
+				+ outRect.height());
 	}
 
 	@Override
@@ -156,60 +149,29 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * ÔËĞĞÔÚÖ÷Ïß³ÌÖĞµÄToast
+	 * è¿è¡Œåœ¨ä¸»çº¿ç¨‹ä¸­çš„Toast
 	 */
 	public void showToastOnUI(final String msg) {
-		runOnUI(new Runnable() {
+		runOnUiThread(new Runnable() {
+
 			@Override
 			public void run() {
 				Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 			}
 		});
-
 	}
 
-	/**
-	 * µ¯³öToast
-	 * 
-	 * @param msg
-	 */
+	/** å¼¹å‡ºToast */
 	public void showToast(String msg) {
 		Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 	}
 
-	/**
-	 * UIÏß³ÌÖ´ĞĞÒ»¸öÈÎÎñ
-	 * 
-	 * @param run
-	 */
-	public void runOnUI(Runnable run) {
-		runOnUiThread(run);
-	}
-
-	/**
-	 * ×ÓÏß³ÌÖ´ĞĞÒ»¸öÈÎÎñ
-	 * 
-	 * @param task
-	 */
-	public void executeTask(Task task) {
-		this.lastTask = task;
-		mThreadPoolManager.executeTask(task);
-	}
-
-	/**
-	 * 
-	 * @param run
-	 */
+	/** å­çº¿ç¨‹æ‰§è¡Œä¸€ä¸ªä»»åŠ¡ */
 	public void executeTask(Runnable run) {
 		mThreadPoolManager.executeTask(run);
 	}
 
-	/**
-	 * Òş²ØÊäÈë·¨
-	 * 
-	 * @param context
-	 * @param achor
-	 */
+	/** éšè—è¾“å…¥æ³• */
 	public void hideSoftInput(Context context, View achor) {
 		InputMethodManager imm = (InputMethodManager) context
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -218,27 +180,25 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 
 	public void dismissProgressDialog() {
-		runOnUI(new Runnable() {
+		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				if (progress != null) {
 					progress.dismiss();
 				}
-
 			}
 		});
-
 	}
 
 	public void showProgressDialog() {
-		runOnUI(new Runnable() {
+		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				if (progress == null) {
 					progress = new ProgressDialog(mContext);
-					progress.setMessage("ÕıÔÚ¼ÓÔØ,ÇëÉÔºó...");
+					progress.setMessage("æ­£åœ¨åŠ è½½,è¯·ç¨å...");
 					progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 				}
 				progress.setCancelable(true);
@@ -254,7 +214,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 
 	public void showProgressDialog(final String msg, final boolean isCancel) {
-		runOnUI(new Runnable() {
+		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -281,11 +241,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 	}
 
-	/**
-	 * ÊÇ·ñÓĞÊı¾İ´«µİ¹ıÀ´
-	 * 
-	 * @return
-	 */
+	/** æ˜¯å¦æœ‰æ•°æ®ä¼ é€’è¿‡æ¥ */
 	@SuppressWarnings("rawtypes")
 	public boolean hasInfo() {
 		mInfo = (Info) getIntent().getSerializableExtra(INFO_NAME);
@@ -296,14 +252,14 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * ´ò¿ªÒ»¸öActivity
+	 * æ‰“å¼€ä¸€ä¸ªActivity
 	 * 
 	 * @param clazz
 	 * @param info
 	 */
 	@SuppressWarnings("rawtypes")
 	public void openActivity(final Class clazz, final Info info) {
-		runOnUI(new Runnable() {
+		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -315,110 +271,27 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 		});
-
 	}
 
-	/**
-	 * ´ò¿ªÒ»¸öActivity for result
-	 * 
-	 * @param clazz
-	 * @param info
-	 */
-	@SuppressWarnings("rawtypes")
-	public void openActivity4Result(final Class clazz, final Info info, final int requestCode) {
-		runOnUI(new Runnable() {
-
-			@Override
-			public void run() {
-				Intent intent = new Intent();
-				intent.setClass(mContext, clazz);
-				if (info != null) {
-					intent.putExtra(INFO_NAME, info);
-				}
-				startActivityForResult(intent, requestCode);
-			}
-		});
-
-	}
-
-	/**
-	 * ·µ»ØÊı¾İµ½ÉÏÒ»¸öactivity
-	 * 
-	 * @param resultCode
-	 * @param data
-	 */
-	@SuppressWarnings("rawtypes")
-	public void closeActivity4Result(int resultCode, Info data) {
-		Intent intent = getIntent();
-		intent.putExtra(INFO_NAME, data);
-		setResult(resultCode, intent);
-		finish();
-	}
-
-	/**
-	 * ¼ÓÔØÍ¼Æ¬
-	 * 
-	 * @param tuContainer
-	 * @param item
-	 */
-	public void loadIMG(ImageView img, String url) {
-		Picasso.with(mContext).load(url).error(R.drawable.error).into(img);
-	}
-
-	public void loadIMG(ImageView img, String url, int errorId) {
-		Picasso.with(this).load(url).error(errorId).placeholder(errorId)
-				.into(img);
-	}
-
+	/** åŠ è½½å›¾ç‰‡ */
 	public void loadIMG(ImageView img, String url, int placeholder, int errorId) {
 		Picasso.with(mContext).load(url).error(errorId)
 				.placeholder(placeholder).into(img);
 	}
 
-	/**
-	 * ¼ÓÔØÍ¼Æ¬
-	 * 
-	 * @param tuContainer
-	 * @param item
-	 */
-	public void loadIMG(ImageView img, File file) {
-		Picasso.with(mContext).load(file).error(R.drawable.error).into(img);
-	}
-
-	/**
-	 * ¼ÓÔØ±¾µØÍ¼Æ¬
-	 * 
-	 * @param tuContainer
-	 * @param item
-	 */
+	/** åŠ è½½å›¾ç‰‡ */
 	public void loadIMG(ImageView img, int id) {
 		Picasso.with(mContext).load(id).into(img);
 	}
 
-	/**
-	 * »ñµÃÅäÖÃÎÄ¼ş²ÎÊı
-	 * 
-	 * @param id
-	 * @return
-	 */
+	/** è·å¾—é…ç½®æ–‡ä»¶å‚æ•° */
 	public float getDimens(int id) {
 		return getResources().getDimension(id);
 	}
 
-	/**
-	 * »ñµÃÅäÖÃÎÄ¼ş²ÎÊı
-	 * 
-	 * @param id
-	 * @return
-	 */
+	/** è·å¾—é…ç½®æ–‡ä»¶å‚æ•° */
 	public int getDimensPixelSize(int id) {
 		return getResources().getDimensionPixelSize(id);
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

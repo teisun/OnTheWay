@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp120"
-    android:background="@color/C22BCF0" >
+    android:background="#22BCF0" >
 
     <RelativeLayout
         android:id="@+id/top_home"
