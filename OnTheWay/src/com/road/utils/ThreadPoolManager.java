@@ -4,7 +4,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Ïß³Ì³Ø¹ÜÀí¹¤¾ßÀà
+ * çº¿ç¨‹æ± å·¥å…·ç±»
+ * @author zhou.sz 
+ * @versionCode 1 <æ¯æ¬¡ä¿®æ”¹æäº¤å‰+1>
  */
 public class ThreadPoolManager{
 	

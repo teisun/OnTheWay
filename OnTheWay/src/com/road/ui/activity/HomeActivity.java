@@ -1,12 +1,15 @@
 package com.road.ui.activity;
 
-import com.zhou.ontheway.R;
-
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+
+import com.zhou.ontheway.R;
 
 public class HomeActivity extends BaseActivity {
-
+	
+	public static final String TAG = "HomeActivity";
+	
 	private View parentView;
 
 	@Override
@@ -14,12 +17,20 @@ public class HomeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		parentView = View.inflate(mContext, R.layout.activity_home, null);
 		setContentView(parentView);
-
+		
+		findViewById(R.id.top_home).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				openActivity(AddressBookAct.class, null);
+			}
+		});
 	}
 
 	@Override
 	protected View getApplicationView() {
 		return parentView;
 	}
+	
 
 }

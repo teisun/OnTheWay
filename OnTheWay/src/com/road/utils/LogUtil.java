@@ -3,9 +3,9 @@ package com.road.utils;
 import android.util.Log;
 
 /**
- * ´òÓ¡Log
- * 
- * @author shenzhou 2014Äê12ÔÂ17ÈÕ
+ * Log å·¥å…·
+ * @author lee.sz 
+ * @versionCode 1 <æ¯æ¬¡ä¿®æ”¹æäº¤å‰+1>
  */
 public class LogUtil {
 
