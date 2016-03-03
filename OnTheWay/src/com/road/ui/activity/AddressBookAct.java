@@ -18,6 +18,7 @@ import com.road.sortlistview.SideBar;
 import com.road.sortlistview.SideBar.OnTouchingLetterChangedListener;
 import com.road.sortlistview.SortAdapter;
 import com.road.sortlistview.SortModel;
+import com.road.ui.addrbook.ContactsHeadView;
 import com.zhou.ontheway.R;
 
 @SuppressLint("DefaultLocale")
@@ -58,6 +59,9 @@ public class AddressBookAct extends BaseActivity {
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
 
+		ContactsHeadView headView = new ContactsHeadView(getApplicationContext());
+		mListView.addHeaderView(headView);
+		
 		// 设置右侧触摸监听
 		mSideBar.setOnTouchingLetterChangedListener(new OnTouchingLetterChangedListener() {
 
@@ -71,7 +75,7 @@ public class AddressBookAct extends BaseActivity {
 
 			}
 		});
-
+		
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

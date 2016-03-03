@@ -20,13 +20,12 @@
         android:background="@drawable/toast_bg"
         android:gravity="center"
         android:textColor="#ffffffff"
-        android:textSize="@dimen/sp70"
-        android:textStyle="bold"
+        android:textSize="60sp"
         android:visibility="invisible" />
 
     <com.road.sortlistview.SideBar
         android:id="@+id/sidrbar"
-        android:layout_width="@dimen/dp150"
+        android:layout_width="@dimen/dp80"
         android:layout_height="match_parent"
         android:layout_gravity="right|center" />
 
