@@ -18,10 +18,10 @@
             android:layout_height="@dimen/dp120"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp50"
-            android:src="@drawable/defpic" />
+            android:src="@drawable/default_fmessage" />
 
         <TextView
-            android:id="@+id/tv_newfriends"
+            android:id="@+id/txt_newfriends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -33,17 +33,16 @@
 
         <TextView
             android:id="@+id/txt_message"
-            android:layout_width="@dimen/dp80"
-            android:layout_height="@dimen/dp80"
-            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/dp60"
+            android:layout_height="@dimen/dp60"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dp250"
+            android:layout_marginLeft="@dimen/dp50"
+            android:layout_toRightOf="@+id/txt_newfriends"
             android:background="@drawable/unread_count_bg"
             android:gravity="center"
-            android:text="6"
             android:textColor="#ffffff"
             android:textSize="@dimen/sp36"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View
@@ -66,7 +65,7 @@
             android:layout_height="@dimen/dp120"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp50"
-            android:src="@drawable/defpic" />
+            android:src="@drawable/default_chatroom" />
 
         <TextView
             android:id="@+id/tv_chatroom"
@@ -100,7 +99,7 @@
             android:layout_height="@dimen/dp120"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp50"
-            android:src="@drawable/defpic" />
+            android:src="@drawable/default_contactlabel" />
 
         <TextView
             android:id="@+id/tv_biaoqian"
@@ -111,7 +110,7 @@
             android:layout_toRightOf="@+id/img3"
             android:text="标签"
             android:textColor="#000000"
-            android:textSize="@dimen/sp45"  />
+            android:textSize="@dimen/sp45" />
     </RelativeLayout>
 
     <View
@@ -134,7 +133,7 @@
             android:layout_height="@dimen/dp120"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp50"
-            android:src="@drawable/defpic" />
+            android:src="@drawable/default_servicebrand_contact" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -144,7 +143,7 @@
             android:layout_toRightOf="@+id/img4"
             android:text="公众号"
             android:textColor="#000000"
-            android:textSize="@dimen/sp45"  />
+            android:textSize="@dimen/sp45" />
     </RelativeLayout>
 
 </LinearLayout>

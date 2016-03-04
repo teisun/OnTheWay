@@ -18,16 +18,20 @@ package com.road.ui.addrbook;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zhou.ontheway.R;
 
 /** 
  * 通讯录头部列表
- * @author zhou.sz 
+ * @author lee.sz 
  * @versionCode 1 <每次修改提交前+1>
  */
-public class ContactsHeadView extends RelativeLayout {
+public class ContactsHeadView extends RelativeLayout implements OnClickListener {
+	
+	private TextView mTxtMessage;
 	
 	public ContactsHeadView(Context context) {
 		super(context);
@@ -50,6 +54,44 @@ public class ContactsHeadView extends RelativeLayout {
 	 */
 	private void initView() {
 		View view = View.inflate(getContext(), R.layout.layout_contacts_head, this);
+		view.findViewById(R.id.rela_newfriends).setOnClickListener(this);
+		view.findViewById(R.id.rela_chatroom).setOnClickListener(this);
+		view.findViewById(R.id.rela_mark).setOnClickListener(this);
+		view.findViewById(R.id.rela_publicno).setOnClickListener(this);
+		mTxtMessage = (TextView) view.findViewById(R.id.txt_message);
+	}
+	
+	/**
+	 * 设置消息记录大小
+	 * @param count
+	 */
+	public void setMessageCount(int count) {
+		mTxtMessage.setVisibility(View.VISIBLE);
+		mTxtMessage.setText(count + "");
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rela_newfriends:
+
+			break;
+
+		case R.id.rela_chatroom:
+
+			break;
+
+		case R.id.rela_mark:
+
+			break;
+
+		case R.id.rela_publicno:
+
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 
