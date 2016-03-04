@@ -1,20 +1,13 @@
 package com.road.bean;
 
-/**
- * 数据传递的载体
- * @author zhou
- *
- * @param <T>
- */
 @SuppressWarnings({"serial", "rawtypes"})
 public class Info<T> extends SuperBean{
 	
 	private T data;
-	private Class origin;  // 来源
+	private Class origin;  
 	
 	public Info() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public T getData() {

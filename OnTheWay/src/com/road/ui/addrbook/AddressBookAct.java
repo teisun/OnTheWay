@@ -1,4 +1,4 @@
-package com.road.ui.activity;
+package com.road.ui.addrbook;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,11 +18,15 @@ import com.road.sortlistview.SideBar;
 import com.road.sortlistview.SideBar.OnTouchingLetterChangedListener;
 import com.road.sortlistview.SortAdapter;
 import com.road.sortlistview.SortModel;
+import com.road.ui.activity.BaseActivity;
+import com.road.utils.LogUtil;
 import com.zhou.ontheway.R;
 
 @SuppressLint("DefaultLocale")
 public class AddressBookAct extends BaseActivity {
 
+	protected static final String TAG = "AddressBookAct";
+	
 	private ListView mListView;
 	private SideBar mSideBar;
 	private TextView mTxtDialog;
@@ -32,7 +36,7 @@ public class AddressBookAct extends BaseActivity {
 
 	/** 汉字转换成拼音的类 */
 	private CharacterParser characterParser;
-	private List<SortModel> SourceDateList;
+	private List<Object> sourceDateList;
 
 	/** 根据拼音来排列ListView里面的数据类 */
 	private PinyinComparator pinyinComparator;
@@ -57,21 +61,45 @@ public class AddressBookAct extends BaseActivity {
 		// 实例化汉字转拼音类
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
-
+		sourceDateList = new ArrayList<Object>();
+		
+		String[] contacts = getResources().getStringArray(R.array.contacts);
+		String[] picContacts = getResources().getStringArray(R.array.img_src_contacts);
+		
+		List<SortModel> sortLists = filledData(contacts, picContacts);
+		// 根据a-z进行排序源数据
+		Collections.sort(sortLists, pinyinComparator);
+		
+		Head head = new Head();
+		sourceDateList.add(head);
+		sourceDateList.addAll(sortLists);
+		
+//		ContactsHeadView headView = new ContactsHeadView(getApplicationContext());
+//		mListView.addHeaderView(headView);
+		
+		ContactsFooterView footerView = new ContactsFooterView(getApplicationContext());
+		footerView.setContactTotal(sourceDateList.size());
+		mListView.addFooterView(footerView);
+		
 		// 设置右侧触摸监听
 		mSideBar.setOnTouchingLetterChangedListener(new OnTouchingLetterChangedListener() {
 
 			@Override
 			public void onTouchingLetterChanged(String s) {
+				LogUtil.e(TAG, s);
+				if (s.endsWith("↑") || s.endsWith("☆")) {
+					mListView.setSelection(0);
+				}
 				// 该字母首次出现的位置
 				int position = mAdapter.getPositionForSection(s.charAt(0));
+				LogUtil.e(TAG, "position:" + position);
 				if (position != -1) {
 					mListView.setSelection(position);
 				}
 
 			}
 		});
-
+		
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -83,13 +111,7 @@ public class AddressBookAct extends BaseActivity {
 			}
 		});
 
-		String[] contacts = getResources().getStringArray(R.array.contacts);
-		String[] picContacts = getResources().getStringArray(R.array.img_src_contacts);
-		SourceDateList = filledData(contacts, picContacts);
-		
-		// 根据a-z进行排序源数据
-		Collections.sort(SourceDateList, pinyinComparator);
-		mAdapter = new SortAdapter(getApplicationContext(), SourceDateList);
+		mAdapter = new SortAdapter(getApplicationContext(), sourceDateList);
 		mListView.setAdapter(mAdapter);
 	}
 
