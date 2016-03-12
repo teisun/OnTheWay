@@ -139,12 +139,16 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 				contentHolder.tvLetter.setVisibility(View.GONE);
 			}
 			
-			if (!TextUtils.isEmpty(item.getImgSrc())) {
-				Picasso.with(mContext).load(item.getImgSrc())
-						.placeholder(R.drawable.defpic)
-						.error(R.drawable.defpic).into(contentHolder.tvHead);
+			if (item.getPhoto() != null) {
+				contentHolder.tvHead.setImageBitmap(item.getPhoto());
 			} else {
-				contentHolder.tvHead.setImageResource(R.drawable.defpic);
+				if (!TextUtils.isEmpty(item.getImgSrc())) {
+					Picasso.with(mContext).load(item.getImgSrc())
+							.placeholder(R.drawable.defpic)
+							.error(R.drawable.defpic).into(contentHolder.tvHead);
+				} else {
+					contentHolder.tvHead.setImageResource(R.drawable.defpic);
+				}
 			}
 			
 			if (!TextUtils.isEmpty(item.getName())) {
