@@ -26,6 +26,7 @@ public class HomeActivity extends BaseActivity {
 				openActivity(AddressBookAct.class, null);
 			}
 		});
+		
 	}
 
 	@Override

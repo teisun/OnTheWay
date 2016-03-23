@@ -17,14 +17,17 @@ package com.road.ui.component;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.MessageQueue;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhou.ontheway.R;
 
 /** 
- * TODO<请描述这个类是干什么的> 
+ * 自定义 dialog
  * @author zhou.ni 
  * @versionCode 1 <每次修改提交前+1>
  */
@@ -32,8 +35,23 @@ public class LoadingDialog extends Dialog {
 	
 	private TextView mTxtMessage;
 	
+	private ImageView mImgLoading;
+	
+	private Context mContext;
+	
+	public LoadingDialog(Context context) {
+		super(context, R.style.CustomProgressDialog);
+		
+		mContext = context;
+		
+		initView();
+	}
+	
 	public LoadingDialog(Context context, int theme) {
 		super(context, R.style.CustomProgressDialog);
+		
+		mContext = context;
+		
 		initView();
 	}
 
@@ -42,12 +60,45 @@ public class LoadingDialog extends Dialog {
 	 */
 	private void initView() {
 		setContentView(R.layout.dialog_loading);
+		
 		// 居中
 		getWindow().getAttributes().gravity = Gravity.CENTER; 
+		
 		// 点击空白不取消
 		setCanceledOnTouchOutside(false); 
+		
 		// 点击返回按钮不取消
-		setCancelable(false); 
+		// setCancelable(false); 
+	
+		mImgLoading = (ImageView) findViewById(R.id.img_icon);
+		mTxtMessage = (TextView) findViewById(R.id.txt_message);
+		
+		mTxtMessage.setText("哔 哔 哔 ...");
+		
+		startAnimation();
+	}
+	
+	@SuppressWarnings("static-access")
+	private void startAnimation() {
+		final AnimationDrawable drawable = (AnimationDrawable) mImgLoading
+				.getBackground();
+		mContext.getMainLooper().myQueue()
+				.addIdleHandler(new MessageQueue.IdleHandler() {
+
+					@Override
+					public boolean queueIdle() {
+						// 启动动画
+						drawable.start();
+						return false;
+					}
+				});
+	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		if (!hasFocus) {
+			dismiss();
+		}
 	}
 
 	/**
