@@ -33,6 +33,7 @@ import com.road.sortlistview.SideBar.OnTouchingLetterChangedListener;
 import com.road.sortlistview.SortAdapter;
 import com.road.sortlistview.SortModel;
 import com.road.ui.activity.BaseActivity;
+import com.road.ui.component.LoadingDialog;
 import com.road.utils.LogUtil;
 import com.zhou.ontheway.R;
 
@@ -64,6 +65,9 @@ public class AddressBookAct extends BaseActivity {
 		setContentView(parentView);
 		initView();
 		getPhoneContacts();
+		
+		LoadingDialog dialog = new LoadingDialog(mContext);
+		dialog.show();
 	}
 
 	/**
