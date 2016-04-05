@@ -27,6 +27,14 @@ public class HomeActivity extends BaseActivity {
 			}
 		});
 		
+		findViewById(R.id.top_discover).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				openActivity(Win8MetroUIAct.class, null);
+			}
+		});
+		
 	}
 
 	@Override
