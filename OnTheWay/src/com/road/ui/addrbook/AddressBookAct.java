@@ -53,7 +53,10 @@ public class AddressBookAct extends BaseActivity {
 
 	/** 汉字转换成拼音的类 */
 	private CharacterParser characterParser;
+	// 数据源
 	private List<Object> sourceDateList;
+	// 联系人列表
+	private List<SortModel> contactLists;
 
 	/** 根据拼音来排列ListView里面的数据类 */
 	private PinyinComparator pinyinComparator;
@@ -65,9 +68,6 @@ public class AddressBookAct extends BaseActivity {
 		setContentView(parentView);
 		initView();
 		getPhoneContacts();
-		
-		LoadingDialog dialog = new LoadingDialog(mContext);
-		dialog.show();
 	}
 
 	/**
@@ -100,7 +100,6 @@ public class AddressBookAct extends BaseActivity {
 				}
 				// 该字母首次出现的位置
 				int position = mAdapter.getPositionForSection(s.charAt(0));
-				LogUtil.e(TAG, "position:" + position);
 				if (position != -1) {
 					mListView.setSelection(position);
 				}
@@ -130,6 +129,10 @@ public class AddressBookAct extends BaseActivity {
 
 	/** 得到手机通讯录联系人信息 **/
 	private void getPhoneContacts() {
+		
+		final LoadingDialog dialog = new LoadingDialog(this);
+		dialog.show();
+		
 		executeTask(new Runnable() {
 			
 			@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -191,9 +194,20 @@ public class AddressBookAct extends BaseActivity {
 						}
 						refreshUI(list);
 					}
+					
 				} catch (Exception e) {
+					refreshUI(list);
 					e.printStackTrace();
+					
 				} finally {
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							dialog.dismiss();
+						}
+					});
+					
 					if (cursor != null) {
 						cursor.close();
 						cursor = null;
@@ -206,34 +220,29 @@ public class AddressBookAct extends BaseActivity {
 	
 	// 刷新UI
 	private void refreshUI(final List<ContactModel> list) {
+		
+		contactLists = new ArrayList<SortModel>();
+		
 		if (list == null || list.size() == 0) {
-			runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					sourceDateList.clear();
-					Head head = new Head();
-					sourceDateList.add(head);
-					footerView.setContactTotal(sourceDateList.size()-1);
-					mAdapter.notifyDataSetChanged();
-				}
-			});
-			return;
+			List<SortModel> sortList = filledData(getResources().getStringArray(R.array.contacts),
+					getResources().getStringArray(R.array.img_src_contacts));
+			contactLists.addAll(sortList);
+		
+		} else {
+			contactLists.addAll(convertData(list));
 		}
+		
+		// 根据a-z进行排序源数据
+		Collections.sort(contactLists, pinyinComparator);
 		
 		runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				
-				
-				List<SortModel> sortLists = convertData(list);
-				// 根据a-z进行排序源数据
-				Collections.sort(sortLists, pinyinComparator);
-				
+				sourceDateList.clear();
 				Head head = new Head();
 				sourceDateList.add(head);
-				sourceDateList.addAll(sortLists);
+				sourceDateList.addAll(contactLists);
 				footerView.setContactTotal(sourceDateList.size()-1);
 				mAdapter.notifyDataSetChanged();
 			}
@@ -269,6 +278,33 @@ public class AddressBookAct extends BaseActivity {
 			mSortList.add(sortModel);
 		}
 		return mSortList;
+	}
+	
+	/**
+	 * 为ListView填充数据
+	 */
+	private List<SortModel> filledData(String[] date, String[] imgData) {
+		List<SortModel> mSortList = new ArrayList<SortModel>();
+
+		for (int i = 0; i < date.length; i++) {
+			SortModel sortModel = new SortModel();
+			sortModel.setImgSrc(imgData[i]);
+			sortModel.setName(date[i]);
+			// 汉字转换成拼音
+			String pinyin = characterParser.getSelling(date[i]);
+			String sortString = pinyin.substring(0, 1).toUpperCase();
+
+			// 正则表达式，判断首字母是否是英文字母
+			if (sortString.matches("[A-Z]")) {
+				sortModel.setSortLetters(sortString.toUpperCase());
+			} else {
+				sortModel.setSortLetters("#");
+			}
+
+			mSortList.add(sortModel);
+		}
+		return mSortList;
+
 	}
 
 
