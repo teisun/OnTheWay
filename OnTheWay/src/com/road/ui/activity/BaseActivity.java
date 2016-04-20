@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.road.bean.Info;
-import com.road.utils.Configure;
 import com.road.utils.LogUtil;
 import com.road.utils.ThreadPoolManager;
 import com.squareup.picasso.Picasso;
@@ -32,8 +31,6 @@ public abstract class BaseActivity extends Activity {
 	protected ThreadPoolManager mThreadPoolManager;
 
 	protected Context mContext;
-
-	protected ProgressDialog progress;
 
 	@SuppressWarnings("rawtypes")
 	protected Info mInfo;
@@ -54,10 +51,11 @@ public abstract class BaseActivity extends Activity {
 
 	/** 得到全局的View */
 	protected abstract View getApplicationView();
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4以上
 			// 透明状态栏
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -68,14 +66,10 @@ public abstract class BaseActivity extends Activity {
 			isVersionLevel = false;
 		}
 
-		Configure.init(this);
 		mThreadPoolManager = ThreadPoolManager.getInstance();
 		mContext = this;
-
-		progress = getProgressDialog("正在加载,请稍后...");
-		progress.setCancelable(true);
 	}
-
+	
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
@@ -179,65 +173,8 @@ public abstract class BaseActivity extends Activity {
 				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
-	public void dismissProgressDialog() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (progress != null) {
-					progress.dismiss();
-				}
-			}
-		});
-	}
-
-	public void showProgressDialog() {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (progress == null) {
-					progress = new ProgressDialog(mContext);
-					progress.setMessage("正在加载,请稍后...");
-					progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				}
-				progress.setCancelable(true);
-				try {
-					progress.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-
-	}
-
-	public void showProgressDialog(final String msg, final boolean isCancel) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				progress = new ProgressDialog(mContext);
-				progress.setMessage(msg);
-				progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progress.setCancelable(isCancel);
-				try {
-					progress.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-
-	}
-
 	@Override
 	public void onDestroy() {
-		if (progress != null) {
-			progress.dismiss();
-		}
 		super.onDestroy();
 	}
 
