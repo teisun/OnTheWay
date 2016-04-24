@@ -33,6 +33,10 @@
         <activity
             android:name="com.road.ui.addrbook.AddressBookAct"
             android:screenOrientation="portrait" />
+        
+        <activity
+            android:name="com.road.ui.activity.Win8MetroUIAct"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
