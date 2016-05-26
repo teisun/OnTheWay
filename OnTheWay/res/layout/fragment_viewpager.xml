@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/img_well"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/wellcome_1" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="@dimen/dp400"
+        android:layout_height="@dimen/dp130"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/dp150"
+        android:background="@drawable/btn_wellcome_selector"
+        android:text="@string/wellcome_start"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp45" />
+
+</FrameLayout>

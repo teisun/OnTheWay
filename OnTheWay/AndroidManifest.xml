@@ -22,7 +22,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar" >
-        <activity android:name="com.road.ui.activity.HomeActivity" >
+        <activity android:name="com.road.ui.activity.WellcomeAct" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,12 +31,14 @@
         </activity>
         
         <activity
+            android:name="com.road.ui.activity.HomeActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+        
+        <activity
             android:name="com.road.ui.addrbook.AddressBookAct"
             android:screenOrientation="portrait" />
         
-        <activity
-            android:name="com.road.ui.activity.Win8MetroUIAct"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

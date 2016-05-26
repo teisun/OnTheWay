@@ -1,7 +1,10 @@
 <resources>
 
     <string name="app_name">OnTheWay</string>
+    <string name="hello_world">Hello World</string>
 	
+    <string name="wellcome_start">立即体验</string>
+    
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">释放更新</string>
     <string name="xlistview_header_hint_loading">加载中</string>
