@@ -35,7 +35,7 @@ public class HomeActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				openActivity(Win8MetroUIAct.class, null);
+				// TODO
 			}
 		});
 		
