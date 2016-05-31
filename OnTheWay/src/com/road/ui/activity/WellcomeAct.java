@@ -45,4 +45,5 @@ public class WellcomeAct extends FragmentActivity {
 		mDirectionalViewPager.setOrientation(DirectionalViewPager.VERTICAL);
 	}
 
+
 }

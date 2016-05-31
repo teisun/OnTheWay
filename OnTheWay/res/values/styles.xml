@@ -4,6 +4,22 @@
 
     <style name="AppTheme" parent="AppBaseTheme"></style>
 
+    <style name="MyMaterialTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Here we setting appcompat’s actionBarStyle -->
+        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:colorPrimary">@color/green</item>
+        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:colorPrimaryDark">@color/green</item>
+        <!--<item name="android:navigationBarColor">@color/transparent</item>-->
+    </style>
+
+    <style name="MyMaterialTheme.Light.NoActionBar" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -15,6 +31,12 @@
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- DrawerArrowStyles -->
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/white</item>
     </style>
 
 </resources>

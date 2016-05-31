@@ -17,6 +17,7 @@
 package com.road.ui.component;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Parcel;
@@ -26,7 +27,6 @@ import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.VelocityTrackerCompat;
-import android.support.v4.view.VerticalViewPagerCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -75,7 +75,8 @@ public class DirectionalViewPager extends ViewPager {
     private Parcelable mRestoredAdapterState = null;
     private ClassLoader mRestoredClassLoader = null;
     private Scroller mScroller;
-    private VerticalViewPagerCompat.DataSetObserver mObserver;
+    
+    // private VerticalViewPagerCompat.DataSetObserver mObserver;
 
     private int mChildWidthMeasureSpec;
     private int mChildHeightMeasureSpec;
@@ -159,16 +160,12 @@ public class DirectionalViewPager extends ViewPager {
 
     public void setAdapter(PagerAdapter adapter) {
         if (mAdapter != null) {
-            VerticalViewPagerCompat.setDataSetObserver(mAdapter, null);
+            // TODO
         }
 
         mAdapter = adapter;
 
         if (mAdapter != null) {
-            if (mObserver == null) {
-                mObserver = new DataSetObserver();
-            }
-            VerticalViewPagerCompat.setDataSetObserver(mAdapter, mObserver);
             mPopulatePending = false;
             if (mRestoredCurItem >= 0) {
                 mAdapter.restoreState(mRestoredAdapterState, mRestoredClassLoader);
@@ -848,7 +845,6 @@ public class DirectionalViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-
         if (ev.getAction() == MotionEvent.ACTION_DOWN && ev.getEdgeFlags() != 0) {
             // Don't handle edge touches immediately -- they may actually belong to one of our
             // descendants.
@@ -1070,15 +1066,6 @@ public class DirectionalViewPager extends ViewPager {
                 }
             }
         }
-    }
-
-    private class DataSetObserver implements VerticalViewPagerCompat.DataSetObserver {
-    
-    	@Override
-        public void onDataSetChanged() {
-            dataSetChanged();
-        }
-    	
     }
     
 }

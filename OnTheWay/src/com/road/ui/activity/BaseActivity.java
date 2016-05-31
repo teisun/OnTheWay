@@ -1,7 +1,5 @@
 package com.road.ui.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,29 +19,27 @@ import android.widget.Toast;
 
 import com.road.bean.Info;
 import com.road.utils.LogUtil;
+import com.road.utils.SystemBarTintManager;
 import com.road.utils.ThreadPoolManager;
 import com.squareup.picasso.Picasso;
+import com.zhou.ontheway.R;
 
-@SuppressLint("NewApi")
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 	private static final String TAG = "BaseActivity";
 
-	protected ThreadPoolManager mThreadPoolManager;
-
 	protected Context mContext;
 
-	@SuppressWarnings("rawtypes")
 	protected Info mInfo;
 
 	protected final String INFO_NAME = "info";
 
 	// 状态栏高度
 	protected int statusHeight;
-	
+
 	// View 绘制的高度
 	protected int viewHeight;
-	
+
 	// 应用的高度
 	protected int applicationHeight;
 
@@ -50,8 +47,13 @@ public abstract class BaseActivity extends Activity {
 	protected boolean isVersionLevel;
 
 	/** 得到全局的View */
-	protected abstract View getApplicationView();
-	
+	// protected abstract View getApplicationView();
+
+	protected ThreadPoolManager mThreadPoolManager;
+
+
+	private SystemBarTintManager tintManager;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,8 +62,12 @@ public abstract class BaseActivity extends Activity {
 			// 透明状态栏
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// 透明导航栏
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+			// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 			isVersionLevel = true;
+			tintManager = new SystemBarTintManager(this);
+			tintManager.setStatusBarTintEnabled(true);
+			tintManager.setStatusBarTintResource(R.color.green);
+
 		} else {
 			isVersionLevel = false;
 		}
@@ -77,7 +83,7 @@ public abstract class BaseActivity extends Activity {
 			getAreaScreen();
 			getAreaView();
 			getAreaApplication();
-			setPaddings(getApplicationView(), 0, statusHeight, 0, (viewHeight - applicationHeight - statusHeight));
+			// setPaddings(getApplicationView(), 0, statusHeight, 0, (viewHeight - applicationHeight - statusHeight));
 		}
 	}
 
@@ -125,16 +131,6 @@ public abstract class BaseActivity extends Activity {
 				+ outRect.height());
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
 	public ProgressDialog getProgressDialog(String msg) {
 		ProgressDialog progressDialog = new ProgressDialog(mContext);
 		progressDialog.setMessage(msg);
@@ -173,13 +169,7 @@ public abstract class BaseActivity extends Activity {
 				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
 	/** 是否有数据传递过来 */
-	@SuppressWarnings("rawtypes")
 	public boolean hasInfo() {
 		mInfo = (Info) getIntent().getSerializableExtra(INFO_NAME);
 		if (mInfo != null) {
@@ -221,14 +211,5 @@ public abstract class BaseActivity extends Activity {
 		Picasso.with(mContext).load(id).into(img);
 	}
 
-	/** 获得配置文件参数 */
-	public float getDimens(int id) {
-		return getResources().getDimension(id);
-	}
-
-	/** 获得配置文件参数 */
-	public int getDimensPixelSize(int id) {
-		return getResources().getDimensionPixelSize(id);
-	}
 
 }
