@@ -1,6 +1,5 @@
 package com.road.bean;
 
-@SuppressWarnings({"serial", "rawtypes"})
 public class Info<T> extends SuperBean{
 	
 	private T data;
@@ -25,7 +24,6 @@ public class Info<T> extends SuperBean{
 	public void setOrigin(Class origin) {
 		this.origin = origin;
 	}
-	
-	
-	
+
+
 }

@@ -43,46 +43,55 @@ public abstract class BaseActivity extends AppCompatActivity {
 	// 应用的高度
 	protected int applicationHeight;
 
-	// android 版本是否为4.4
-	protected boolean isVersionLevel;
-
-	/** 得到全局的View */
-	// protected abstract View getApplicationView();
-
 	protected ThreadPoolManager mThreadPoolManager;
 
-
 	private SystemBarTintManager tintManager;
+	private int statusTinRes = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4以上
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isSetStatusBar()) { // 4.4以上
 			// 透明状态栏
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// 透明导航栏
 			// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-			isVersionLevel = true;
+
 			tintManager = new SystemBarTintManager(this);
 			tintManager.setStatusBarTintEnabled(true);
-			tintManager.setStatusBarTintResource(R.color.green);
-
-		} else {
-			isVersionLevel = false;
+			if (statusTinRes != -1) {
+				tintManager.setStatusBarTintResource(statusTinRes);
+			} else {
+				tintManager.setStatusBarTintResource(R.color.material_primary_dark);
+			}
 		}
 
-		mThreadPoolManager = ThreadPoolManager.getInstance();
 		mContext = this;
+		mThreadPoolManager = ThreadPoolManager.getInstance();
+	}
+
+	/**
+	 * 是否设置沉浸式
+	 */
+	protected boolean isSetStatusBar() {
+		return false;
+	}
+
+	/**
+	 * 设置沉浸栏的颜色
+	 */
+	public void setStatusBarTintRes(int res) {
+		statusTinRes = res;
 	}
 	
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus && isVersionLevel) {
-			getAreaScreen();
-			getAreaView();
-			getAreaApplication();
+		if (hasFocus) {
+			// getAreaScreen();
+			// getAreaView();
+			// getAreaApplication();
 			// setPaddings(getApplicationView(), 0, statusHeight, 0, (viewHeight - applicationHeight - statusHeight));
 		}
 	}

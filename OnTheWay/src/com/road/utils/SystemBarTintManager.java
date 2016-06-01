@@ -38,7 +38,7 @@ import android.widget.FrameLayout.LayoutParams;
 import java.lang.reflect.Method;
 
 /**
- * Class to manage status and navigation bar tint effects when using KitKat 
+ * Class to manage status and navigation bar tint effects when using KitKat
  * translucent system UI modes.
  *
  */
@@ -390,7 +390,7 @@ public class SystemBarTintManager {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 TypedValue tv = new TypedValue();
                 context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-                result = context.getResources().getDimensionPixelSize(tv.resourceId);
+                result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
             }
             return result;
         }

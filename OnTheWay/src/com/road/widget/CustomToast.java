@@ -33,7 +33,7 @@ import com.zhou.ontheway.R;
  */
 public class CustomToast {
 
-	public static void showToast(Context context, ViewGroup root,
+	public static Toast showToast(Context context, ViewGroup root,
 			CharSequence text, int duration) {
 		View layout = LayoutInflater.from(context).inflate(R.layout.toast_home,
 				root);
@@ -44,7 +44,7 @@ public class CustomToast {
 		toast.setDuration(duration);
 		toast.setGravity(Gravity.TOP, 0, 0);  
 		toast.setView(layout);
-		toast.show();
+		return toast;
 	}
 
 }
