@@ -36,23 +36,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	// 状态栏高度
 	protected int statusHeight;
-
 	// View 绘制的高度
 	protected int viewHeight;
-
 	// 应用的高度
 	protected int applicationHeight;
 
 	protected ThreadPoolManager mThreadPoolManager;
 
-	private SystemBarTintManager tintManager;
 	private int statusTinRes = -1;
+	private boolean isSetStatusBar;
+	private SystemBarTintManager tintManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isSetStatusBar()) { // 4.4以上
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isSetStatusBar) { // 4.4以上
 			// 透明状态栏
 			 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			// 透明导航栏
@@ -74,8 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	/**
 	 * 是否设置沉浸式
 	 */
-	protected boolean isSetStatusBar() {
-		return false;
+	public void setSetStatusBar(boolean isSetStatusBar) {
+		this.isSetStatusBar = isSetStatusBar;
 	}
 
 	/**
@@ -181,10 +180,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	/** 是否有数据传递过来 */
 	public boolean hasInfo() {
 		mInfo = (Info) getIntent().getSerializableExtra(INFO_NAME);
-		if (mInfo != null) {
-			return true;
-		}
-		return false;
+		return mInfo != null;
 	}
 
 	/**
