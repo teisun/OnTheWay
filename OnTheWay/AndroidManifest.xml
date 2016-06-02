@@ -1,44 +1,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhou.ontheway"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="com.zhou.ontheway"
+          android:versionCode="10"
+          android:versionName="1.1.0">
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="23" />
+        android:minSdkVersion="21"
+        android:targetSdkVersion="23"/>
 
     <!-- 检测网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    
-    <!-- 读取联系人权限 -->  
-	<uses-permission android:name="android.permission.READ_CONTACTS" /> 
-	<!-- 拨打电话权限 -->  
-	<uses-permission android:name="android.permission.CALL_PHONE"/>    
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!-- 拨打电话权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.Black.NoTitleBar" >
-        <activity android:name="com.road.ui.activity.WellcomeAct" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        
+        android:label="@string/app_name">
         <activity
             android:name="com.road.ui.activity.HomeActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
-        
+            android:theme="@style/MyMaterialTheme.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!--<activity-->
+            <!--android:name="com.road.ui.activity.HomeActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/MyMaterialTheme.Light"/>-->
+
         <activity
             android:name="com.road.ui.addrbook.AddressBookAct"
-            android:screenOrientation="portrait" />
-        
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

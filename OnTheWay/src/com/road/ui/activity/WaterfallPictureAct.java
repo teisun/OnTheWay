@@ -24,11 +24,7 @@ import android.view.View;
  */
 public class WaterfallPictureAct extends BaseActivity {
 
-	@Override
-	protected View getApplicationView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 
 }

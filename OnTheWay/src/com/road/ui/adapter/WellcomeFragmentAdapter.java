@@ -1,5 +1,5 @@
 /** 
- * @Title:  WellcomeFragmentAdapter.java 
+ * @Title:  WellComeFragmentAdapter.java
  * @author:  lee.shenzhou
  * @data:  2016年5月26日 下午9:07:37 <创建时间>
  * 
@@ -28,12 +28,12 @@ import com.zhou.ontheway.R;
  * @author lee.shenzhou
  * @versionCode 1 <每次修改提交前+1>
  */
-public class WellcomeFragmentAdapter extends FragmentPagerAdapter {
+public class WellComeFragmentAdapter extends FragmentPagerAdapter {
 
 	private static final int[] CONTENT = new int[] { R.drawable.wellcome_1,
 			R.drawable.wellcome_2, R.drawable.wellcome_3, R.drawable.wellcome_4 };
 
-	public WellcomeFragmentAdapter(FragmentManager fm) {
+	public WellComeFragmentAdapter(FragmentManager fm) {
 		super(fm);
 	}
 

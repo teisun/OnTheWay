@@ -1,5 +1,5 @@
 /** 
- * @Title:  WellcomeAct.java 
+ * @Title:  WellComeAct.java
  * @author:  lee.shenzhou
  * @data:  2016年5月26日 下午8:43:55 <创建时间>
  * 
@@ -18,7 +18,7 @@ package com.road.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.road.ui.adapter.WellcomeFragmentAdapter;
+import com.road.ui.adapter.WellComeFragmentAdapter;
 import com.road.ui.component.DirectionalViewPager;
 import com.zhou.ontheway.R;
 
@@ -28,7 +28,7 @@ import com.zhou.ontheway.R;
  * @author lee.shenzhou
  * @versionCode 1 <每次修改提交前+1>
  */
-public class WellcomeAct extends FragmentActivity {
+public class WellComeAct extends FragmentActivity {
 
 	private DirectionalViewPager mDirectionalViewPager;
 
@@ -40,9 +40,10 @@ public class WellcomeAct extends FragmentActivity {
 
 		// Set up the pager
 		mDirectionalViewPager = (DirectionalViewPager) findViewById(R.id.viewpager);
-		mDirectionalViewPager.setAdapter(new WellcomeFragmentAdapter(
+		mDirectionalViewPager.setAdapter(new WellComeFragmentAdapter(
 				getSupportFragmentManager()));
 		mDirectionalViewPager.setOrientation(DirectionalViewPager.VERTICAL);
 	}
+
 
 }
